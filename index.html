@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro de Consultas Médicas - Otilia</title>
+
+  <!-- Importar fuente Poppins desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* RESET */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4ff;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* TÍTULO CON FUENTE Poppins */
+    h1 {
+      margin-bottom: 15px;
+      font-weight: 700;
+      font-size: 2.8rem;
+      color: #3341a8;
+      letter-spacing: 1px;
+      user-select: text;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      text-shadow: 0 2px 5px rgba(51, 65, 168, 0.3);
+    }
+    h2 {
+      margin: 40px 0 20px 0;
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: #4a4f7c;
+      user-select: text;
+      border-bottom: 3px solid #6a8bff;
+      padding-bottom: 6px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    /* FORMULARIO */
+    form#formulario {
+      background: #fff;
+      padding: 32px 28px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(102,115,255,0.15);
+      width: 100%;
+      max-width: 620px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-gap: 20px 24px;
+      align-items: center;
+      user-select: none;
+      transition: box-shadow 0.3s ease;
+    }
+    form#formulario:hover {
+      box-shadow: 0 14px 45px rgba(102,115,255,0.25);
+    }
+
+    form#formulario label {
+      font-weight: 600;
+      font-size: 1.1rem;
+      justify-self: end;
+      padding-right: 18px;
+      color: #5a5f82;
+      user-select: text;
+      transition: color 0.3s ease;
+    }
+
+    form#formulario input {
+      padding: 12px 16px;
+      border: 2px solid #d1d9ff;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      outline-offset: 4px;
+      outline-color: transparent;
+      background: #f9fbff;
+      color: #2c2f47;
+      transition: outline-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      user-select: text;
+      cursor: text;
+      box-shadow: inset 0 1px 4px #e2e7ff;
+    }
+    form#formulario input:focus {
+      outline-color: #6a8bff;
+      box-shadow: 0 0 12px #6a8bff88, inset 0 1px 6px #c3d1ff;
+      border-color: #6a8bff;
+      background: #fff;
+    }
+
+    form#formulario button {
+      grid-column: 1 / -1;
+      padding: 16px 0;
+      background: linear-gradient(135deg, #556fff, #8a97ff);
+      border: none;
+      border-radius: 16px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 8px 20px #7a8affbb;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
+      user-select: none;
+      letter-spacing: 0.05em;
+    }
+    form#formulario button:hover {
+      background: linear-gradient(135deg, #3c54f4, #6a78ff);
+      box-shadow: 0 10px 28px #5767fddd;
+      transform: translateY(-3px);
+    }
+    form#formulario button:active {
+      transform: translateY(0);
+      box-shadow: 0 7px 18px #4959e4cc;
+    }
+
+    /* TABLA */
+    table#tabla {
+      width: 100%;
+      max-width: 1000px;
+      border-collapse: separate;
+      border-spacing: 0 14px;
+      background: transparent;
+      border-radius: 20px;
+      user-select: none;
+      margin-bottom: 50px;
+      box-shadow: 0 10px 35px rgba(86, 99, 187, 0.12);
+      overflow: hidden;
+      font-size: 1rem;
+      color: #3a3f5c;
+      transition: box-shadow 0.3s ease;
+    }
+
+    table#tabla:hover {
+      box-shadow: 0 15px 50px rgba(86, 99, 187, 0.2);
+    }
+
+    table#tabla thead tr {
+      background: #6673ff;
+      color: #fff;
+      font-weight: 700;
+      text-align: left;
+      user-select: none;
+      border-radius: 16px;
+      box-shadow: inset 0 -4px 10px #5264f0aa;
+    }
+
+    table#tabla th, table#tabla td {
+      padding: 16px 22px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    table#tabla tbody tr {
+      background: #eef1ff;
+      transition: background 0.3s ease, transform 0.25s ease;
+      border-radius: 18px;
+      cursor: default;
+      box-shadow: 0 0 8px #d5dbffaa;
+      user-select: text;
+    }
+    table#tabla tbody tr:hover {
+      background: #d2dafd;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px #aab4ffcc;
+    }
+
+    /* Botón eliminar */
+    .btn-eliminar {
+      background: #ff4b4b;
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      user-select: none;
+      font-size: 1rem;
+      box-shadow: 0 4px 12px #ff6b6baa;
+    }
+    .btn-eliminar:hover {
+      background: #cc3c3c;
+      transform: scale(1.08);
+      box-shadow: 0 5px 16px #d84e4ecc;
+    }
+    .btn-eliminar:active {
+      background: #a93232;
+      transform: scale(0.95);
+      box-shadow: 0 3px 8px #922626cc;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      form#formulario {
+        display: flex;
+        flex-direction: column;
+        padding: 22px 20px;
+      }
+      form#formulario label {
+        justify-self: start;
+        padding-right: 0;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+      }
+      form#formulario input {
+        width: 100%;
+      }
+      form#formulario button {
+        margin-top: 26px;
+        width: 100%;
+      }
+
+      table#tabla {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-radius: 14px;
+      }
+      table#tabla thead, table#tabla tbody, table#tabla tr, table#tabla th, table#tabla td {
+        display: inline-block;
+      }
+      table#tabla thead tr {
+        display: flex;
+        min-width: 600px;
+      }
+      table#tabla tbody tr {
+        display: flex;
+        margin-bottom: 14px;
+        background: #dbe1ff;
+        border-radius: 14px;
+      }
+      table#tabla th, table#tabla td {
+        padding: 14px 16px;
+        white-space: normal;
+        text-align: center;
+      }
+      table#tabla th {
+        flex: 1 1 140px;
+        color: #37457d;
+      }
+      table#tabla td {
+        flex: 1 1 140px;
+        color: #2c3050;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Registro de Consultas Médicas - Otilia</h1>
+
+  <form id="formulario" novalidate>
+    <label for="fecha">Fecha de cita:</label>
+    <input type="date" id="fecha" required />
+
+    <label for="hora">Hora de cita:</label>
+    <input type="time" id="hora" required />
+
+    <label for="especialidad">Especialidad:</label>
+    <input type="text" id="especialidad" placeholder="Ej. Pediatría" required />
+
+    <label for="lugar">Lugar:</label>
+    <input type="text" id="lugar" placeholder="Ej. Clínica ABC" required />
+
+    <label for="paciente">Paciente:</label>
+    <input type="text" id="paciente" placeholder="Nombre del paciente" required />
+
+    <label for="responsable">Responsable de llevarle:</label>
+    <input type="text" id="responsable" placeholder="Nombre responsable" required />
+
+    <button type="submit">Guardar consulta</button>
+  </form>
+
+  <h2>Consultas registradas</h2>
+  <table id="tabla" aria-label="Consultas médicas registradas">
+    <thead>
+      <tr>
+        <th>Fecha de Cita</th>
+        <th>Hora de Cita</th>
+        <th>Especialidad</th>
+        <th>Lugar</th>
+        <th>Paciente</th>
+        <th>Responsable</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
